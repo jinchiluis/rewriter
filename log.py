@@ -8,7 +8,7 @@ class SupabaseLogger:
 
     def __init__(self):
         url: str = st.secrets["SUPABASE_URL"]
-        key: str = st.secrets["SUPABASE_SERVICE_KEY"]
+        key: str = st.secrets["SUPABASE_KEY"]
         self.client: Client = create_client(url, key)
 
     def log(self, data: Dict):
