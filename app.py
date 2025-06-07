@@ -1,5 +1,6 @@
 import re
 import streamlit as st
+import os, json, datetime
 
 from rewriter.api import ArticleRewriter
 
@@ -161,6 +162,18 @@ with col2:
                         openai, openai_key, gpt_4o, writing_prompt, translated_text
                     )
 
+                    # logging 
+                    os.makedirs("logs", exist_ok=True)
+                    timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                    log_data = {
+                        "user_prompt": user_prompt,
+                        "translated_text": translated_text, 
+                        "writing_prompt": writing_prompt,
+                        "generated_article": generated_article
+                    }
+                    with open(f"logs/{timestamp}.json", "w") as f:
+                        json.dump(log_data, f, ensure_ascii=False, indent=2)
+    
                     st.text_area(
                         "Generated Article:",
                         value=generated_article,
