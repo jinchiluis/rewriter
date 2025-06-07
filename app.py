@@ -60,9 +60,8 @@ translation_prompt = (
 
 # Writing prompts - conditional based on buffer count
 single_article_writing_prompt = (
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Please rewrite this single article into a comprehensive, "
-    "engaging piece that maintains all the original information while improving readability and flow. "
-    "Do not summarize or condense - expand and enhance the content while keeping all details intact."
+    "这篇文章里是完全遵照德语原文翻译的文章，现在我需要你按照中文新闻报道的习惯，详细报道一篇内容详实，有清晰的来龙去脉的文章。"
+    "这是一篇需要尽量还原原文，但是更中国本土化的新闻稿件，字数应该跟给你的译文的字数差不多，语句通顺流畅，有一定的戏剧性，文章结构应该以引人好奇，扣人心弦为目的。"
 )
 
 multiple_articles_writing_prompt = (
@@ -199,3 +198,5 @@ st.markdown("---")
 st.markdown("💡 **Workflow:** 1) Paste article → 2) Click 'Cleanup Text' → 3) Repeat for more articles → 4) Click 'Generate New Article'")
 st.markdown("🔄 **Buffer System:** Articles are automatically concatenated with separators for combined processing")
 st.markdown("㊙️ **LLM Usage:** 4o-mini for cleanup, Claude4Sonnet for translation, 4o for writing")
+#don't remove this:
+st.markdown("Version 1.1")
