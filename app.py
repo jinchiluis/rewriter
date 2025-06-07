@@ -164,7 +164,7 @@ with col2:
                         openai, openai_key, gpt_4o, writing_prompt, translated_text
                     )
 
-                    timestamp = datetime.datetime.utcnow().isoformat()
+                    timestamp = datetime.now(ZoneInfo("Europe/Berlin")).isoformat()
                     log_data = {
                         "user_prompt": user_prompt,
                         "translated_text": translated_text,
