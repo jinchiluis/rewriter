@@ -13,4 +13,4 @@ class SupabaseLogger:
 
     def log(self, data: Dict):
         """Insert a log record into the 'logs' table."""
-        self.client.table("logs").insert(data).execute()
+        self.client.table("rewriter_logger").insert(data).execute()
