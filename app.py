@@ -49,7 +49,7 @@ claude35_haiku = "claude-3-5-haiku-20241022"
 # System prompts
 text_clean_prompt = (
     "kannst du bitte den eigentlichen artikeltext rausfiltern, alles andere (werbung, links, etc.) ausblenden."
-    " Unbedingt behalten sollst du Titel, Autor, Datum. Bitte schreibe keine kommentare, so dass ich den Text direkt kopieren kann."
+    " Unverändert übernehmen sollst du auch Titel, Autor, Datum. Schreibe keine Kommentare, so dass ich den Text direkt kopieren kann."
 )
 translation_prompt = (
     "将下文翻译成符合中国人阅读习惯的新闻报道，不要生硬的翻译。并且一定要语句通顺流畅，语意符合中文表达习惯，"
