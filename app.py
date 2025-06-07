@@ -1,6 +1,8 @@
 import re
 import streamlit as st
-import os, json, datetime
+import datetime
+
+from log import SupabaseLogger
 
 from rewriter.api import ArticleRewriter
 
@@ -23,6 +25,7 @@ if not st.session_state["password_correct"]:
 
 
 rewriter = ArticleRewriter()
+logger = SupabaseLogger()
 
 # Buffer state
 if "article_buffer" not in st.session_state:
@@ -162,17 +165,15 @@ with col2:
                         openai, openai_key, gpt_4o, writing_prompt, translated_text
                     )
 
-                    # logging 
-                    os.makedirs("logs", exist_ok=True)
-                    timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                    timestamp = datetime.datetime.utcnow().isoformat()
                     log_data = {
                         "user_prompt": user_prompt,
-                        "translated_text": translated_text, 
+                        "translated_text": translated_text,
                         "writing_prompt": writing_prompt,
-                        "generated_article": generated_article
+                        "generated_article": generated_article,
+                        "timestamp": timestamp,
                     }
-                    with open(f"logs/{timestamp}.json", "w") as f:
-                        json.dump(log_data, f, ensure_ascii=False, indent=2)
+                    logger.log(log_data)
     
                     st.text_area(
                         "Generated Article:",
