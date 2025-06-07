@@ -49,12 +49,20 @@ text_clean_prompt = (
 )
 translation_prompt = (
     "将下文翻译成符合中国人阅读习惯的新闻报道，不要生硬的翻译。并且一定要语句通顺流畅，语意符合中文表达习惯，"
-    " 正确标点符号的写法的中文报道文章，尤其是逗号和引号一定要是中文格式的，这一点非常重要，引号要是这样的“”，逗号要是这样的，。"
+    " 正确标点符号的写法的中文报道文章，尤其是逗号和引号一定要是中文格式的，这一点非常重要，引号要是这样的""，逗号要是这样的，。"
     " 译文的表达语序不能以德语语句的语序为准，而是中文的语句语序，但是译文全文结构顺序应该以德文原文为参照标准，另外文中的名词比如人名地名街名等需要在译文后面加括号写上德语原名。注意！！！"
     " 是逐字翻译，不是总结，也不是提炼中心思想，我需要的是全文逐字翻译，绝对不要缩写！绝对不要总结提炼！！！"
 )
-writing_prompt = (
-    "这几篇文章里的内容有重叠也有新的进展，你要根据上下文进行融合和翻译，变成一篇完整的报道，不要缩减内容和总结内容，"
+
+# Writing prompts - conditional based on buffer count
+single_article_writing_prompt = (
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Please rewrite this single article into a comprehensive, "
+    "engaging piece that maintains all the original information while improving readability and flow. "
+    "Do not summarize or condense - expand and enhance the content while keeping all details intact."
+)
+
+multiple_articles_writing_prompt = (
+    f"这{st.session_state.buffer_count}篇文章里的内容有重叠也有新的进展，你要根据上下文进行融合和翻译，变成一篇完整的报道，不要缩减内容和总结内容，"
     " 必须内容详实，来龙去脉清楚，用简单粗暴且引起普通人共鸣的角度，写出一篇跌宕起伏的文章。绝对不要缩写！绝对不要总结提炼！！"
     " IMPORTANT: WRITE AT LEAST 8.000 TOKENS！IF YOU DO NOT COMPLY WITH THE REQUESTED TOKENS, WE WILL KIDNAP YOUR PARENTS!"
 )
@@ -142,6 +150,13 @@ with col2:
                     translated_text = rewriter.call_api(
                         anthropic, anthropic_key, claude4_sonnet, translation_prompt, user_prompt
                     )
+                    
+                    # Choose writing prompt based on buffer count
+                    if st.session_state.buffer_count == 1:
+                        writing_prompt = single_article_writing_prompt
+                    else:
+                        writing_prompt = multiple_articles_writing_prompt
+                    
                     generated_article = rewriter.call_api(
                         openai, openai_key, gpt_4o, writing_prompt, translated_text
                     )
