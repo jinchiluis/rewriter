@@ -16,6 +16,7 @@ class ArticleRewriter:
                 {"role": "user", "content": user_prompt},
             ],
             "max_tokens": 10000,
+            "temperature": 0.2, 
         }
 
         response = requests.post(
