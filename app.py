@@ -1,7 +1,9 @@
 import re
 import streamlit as st
+from streamlit.components.v1 import html
 from datetime import datetime
 from zoneinfo import ZoneInfo
+import json
 
 from log import SupabaseLogger
 
@@ -43,7 +45,7 @@ openai_key = st.secrets["OPENAI_KEY"]
 anthropic_key = st.secrets["ANTHROPIC_KEY"]
 gpt_4o_mini = "gpt-4o-mini-2024-07-18"
 gpt_4o = "gpt-4o-2024-11-20"
-gpt_5 = "gpt-5-2025-08-07"
+gpt_5 = "gpt-5-2025-08-07" #does not work with temperature
 claude45_sonnet = "claude-sonnet-4-5-20250929"
 claude4_sonnet = "claude-sonnet-4-20250514"
 claude37_sonnet = "claude-3-7-sonnet-20250219"
@@ -183,7 +185,35 @@ with col2:
                         height=400,
                         key="generated_content",
                     )
+                    _text_for_copy = st.session_state.get("generated_content", "")
 
+                    html(
+                        f"""
+                        <button id="copy-btn">📋 Copy text</button>
+                        <script>
+                        const txt = {json.dumps(_text_for_copy)};
+                        const btn = document.getElementById('copy-btn');
+                        btn.addEventListener('click', async () => {{
+                            try {{
+                            // moderner Weg
+                            await navigator.clipboard.writeText(txt);
+                            const old = btn.textContent;
+                            btn.textContent = '✅ Copied';
+                            setTimeout(() => btn.textContent = old, 1200);
+                            }} catch (e) {{
+                            // Fallback für restriktive Umgebungen/HTTP
+                            const ta = document.createElement('textarea');
+                            ta.value = txt;
+                            document.body.appendChild(ta);
+                            ta.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(ta);
+                            }}
+                        }});
+                        </script>
+                        """,
+                        height=50,
+                    )
                     gen_word_count = len(re.findall(r"[\u4e00-\u9fff]|[a-zA-Z0-9]+", generated_article))
                     st.caption(f"Generated article word count: {gen_word_count}")
                     st.caption(f"Based on {st.session_state.buffer_count} source article(s)")

@@ -1,9 +1,10 @@
+import requests
+
 class ArticleRewriter:
-    """Utility class for calling LLM APIs."""
+    """Utility class for calling LLM APIs."""    
 
     def call_openai_api(self, api_key, model, system_prompt, user_prompt):
         """Call the OpenAI chat completions API."""
-        import requests
 
         headers = {
             "Authorization": f"Bearer {api_key}",
@@ -22,13 +23,13 @@ class ArticleRewriter:
         response = requests.post(
             "https://api.openai.com/v1/chat/completions", headers=headers, json=payload
         )
+        print(response.status_code, response.text)
         response.raise_for_status()
         result = response.json()
         return result["choices"][0]["message"]["content"]
 
     def call_anthropic_api(self, api_key, model, system_prompt, user_prompt):
         """Call the Anthropic messages API."""
-        import requests
 
         headers = {
             "x-api-key": api_key,
