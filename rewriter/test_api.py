@@ -2,7 +2,7 @@
 from api import ArticleRewriter   # adjust path if your class lives in rewriter/api.py
 import requests
 
-openai_key = "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"
+openai_key = 1
 
 rewriter = ArticleRewriter()
 
