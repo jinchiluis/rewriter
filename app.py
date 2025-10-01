@@ -43,6 +43,8 @@ openai_key = st.secrets["OPENAI_KEY"]
 anthropic_key = st.secrets["ANTHROPIC_KEY"]
 gpt_4o_mini = "gpt-4o-mini-2024-07-18"
 gpt_4o = "gpt-4o-2024-11-20"
+gpt_5 = "gpt-5"
+claude45_sonnet = "claude-sonnet-4-5-20250929"
 claude4_sonnet = "claude-sonnet-4-20250514"
 claude37_sonnet = "claude-3-7-sonnet-20250219"
 claude35_haiku = "claude-3-5-haiku-20241022"
@@ -162,7 +164,7 @@ with col2:
                         writing_prompt = multiple_articles_writing_prompt
                     
                     generated_article = rewriter.call_api(
-                        openai, openai_key, gpt_4o, writing_prompt, translated_text
+                        openai, openai_key, gpt_5, writing_prompt, translated_text
                     )
 
                     timestamp = datetime.now(ZoneInfo("Europe/Berlin")).isoformat()
