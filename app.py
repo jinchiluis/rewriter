@@ -72,7 +72,7 @@ single_article_writing_prompt = (
 multiple_articles_writing_prompt = (
     f"这{st.session_state.buffer_count}篇文章里的内容有重叠也有新的进展，你要根据上下文进行融合和翻译，变成一篇完整的报道，不要缩减内容和总结内容，"
     " 必须内容详实，来龙去脉清楚，用简单粗暴且引起普通人共鸣的角度，写出一篇跌宕起伏的文章。绝对不要缩写！绝对不要总结提炼！！"
-    " IMPORTANT: WRITE AT LEAST 8.000 TOKENS！IF YOU DO NOT COMPLY WITH THE REQUESTED TOKENS, WE WILL KIDNAP YOUR PARENTS!"
+    #" IMPORTANT: WRITE AT LEAST 8.000 TOKENS！IF YOU DO NOT COMPLY WITH THE REQUESTED TOKENS, WE WILL KIDNAP YOUR PARENTS!"
 )
 
 
