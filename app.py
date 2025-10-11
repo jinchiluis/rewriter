@@ -230,6 +230,6 @@ with col2:
 st.markdown("---")
 st.markdown("💡 **Workflow:** 1) Paste article → 2) Click 'Cleanup Text' → 3) Repeat for more articles → 4) Click 'Generate New Article'")
 st.markdown("🔄 **Buffer System:** Articles are automatically concatenated with separators for combined processing")
-st.markdown("㊙️ **LLM Usage:** 4o-mini for cleanup, Claude4Sonnet for translation, 4o for writing")
+st.markdown("㊙️ **LLM Usage:** GPT-4o-mini for cleanup, Claude4Sonnet for translation, GPT-5 for writing")
 #don't remove this:
-st.markdown("Version 1.1")
+st.markdown("Version 1.2 - 11.10.2025")
