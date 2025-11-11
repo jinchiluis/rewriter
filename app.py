@@ -166,7 +166,7 @@ with col2:
                         writing_prompt = multiple_articles_writing_prompt
                     
                     generated_article = rewriter.call_api(
-                        openai, openai_key, gpt_5, writing_prompt, translated_text
+                        anthropic, anthropic_key, "claude-sonnet-4-5-20250929", writing_prompt, translated_text
                     )
 
                     timestamp = datetime.now(ZoneInfo("Europe/Berlin")).isoformat()
