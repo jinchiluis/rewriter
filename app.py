@@ -197,7 +197,7 @@ with col2:
                         writing_prompt = multiple_articles_writing_prompt
                     
                     generated_article = rewriter.call_api(
-                        anthropic, anthropic_key, "claude-sonnet-4-5-20250929", writing_prompt, translated_text
+                        anthropic, anthropic_key, claude37_sonnet, writing_prompt, translated_text
                     )
 
                     timestamp = datetime.now(ZoneInfo("Europe/Berlin")).isoformat()
@@ -261,6 +261,6 @@ with col2:
 st.markdown("---")
 st.markdown("💡 **Workflow:** 1) Paste article → 2) Click 'Cleanup Text' → 3) Repeat for more articles → 4) Click 'Generate New Article'")
 st.markdown("🔄 **Buffer System:** Articles are automatically concatenated with separators for combined processing")
-st.markdown("㊙️ **LLM Usage:** GPT-4o-mini for cleanup, Claude4Sonnet for translation, Claude4.5Sonnet for writing")
+st.markdown("㊙️ **LLM Usage:** GPT-4o-mini for cleanup, Claude4Sonnet for translation, Claude3.7Sonnet for writing")
 #don't remove this:
 st.markdown("Version 1.3 - 14.11.2025 - Claude 4.5 Sonnet update/Prompt improvements")
