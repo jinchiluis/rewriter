@@ -97,6 +97,36 @@ if st.session_state.buffer_count > 0:
             disabled=True,
         )
 
+        # Copy buffer button
+        _buffer_for_copy = st.session_state.article_buffer
+        html(
+            f"""
+            <button id="copy-buffer-btn">📋 Copy Buffer</button>
+            <script>
+            const bufferTxt = {json.dumps(_buffer_for_copy)};
+            const bufferBtn = document.getElementById('copy-buffer-btn');
+            bufferBtn.addEventListener('click', async () => {{
+                try {{
+                // moderner Weg
+                await navigator.clipboard.writeText(bufferTxt);
+                const old = bufferBtn.textContent;
+                bufferBtn.textContent = '✅ Copied';
+                setTimeout(() => bufferBtn.textContent = old, 1200);
+                }} catch (e) {{
+                // Fallback für restriktive Umgebungen/HTTP
+                const ta = document.createElement('textarea');
+                ta.value = bufferTxt;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                }}
+            }});
+            </script>
+            """,
+            height=50,
+        )
+
 
 col1, col2 = st.columns(2)
 
