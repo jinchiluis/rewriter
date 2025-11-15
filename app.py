@@ -66,13 +66,13 @@ translation_prompt = (
 # Writing prompts - conditional based on buffer count
 single_article_writing_prompt = (
     "这篇文章里是完全遵照德语原文翻译的文章，现在我需要你按照中文新闻报道的习惯，详细报道一篇内容详实，有清晰的来龙去脉的文章。"
-    "这是一篇需要尽量还原原文，但是更中国本土化的新闻稿件，字数应该跟给你的译文的字数差不多，语句通顺流畅。"
+    "这是一篇需要尽量还原原文，但是更中国本土化的新闻稿件，字数应该跟给你的译文的字数差不多，语句通顺流畅。写整篇文章不要小标题。"
 )
 
 multiple_articles_writing_prompt = (
     f"这{st.session_state.buffer_count}篇文章里的内容有重叠也有新的进展，你要根据上下文进行融合和翻译，变成一篇完整的报道，不要缩减内容和总结内容，"
     " 必须内容详实，来龙去脉清楚，写出一篇文章。绝对不要缩写！绝对不要总结提炼！！" 
-    " 尝试找出文章之间的联系，在上下文之间写一些承上启下的句子，文章最后写一些简单的总结，总结的话不要超过三句。"
+    " 尝试找出文章之间的联系，在上下文之间写一些承上启下的句子，文章最后写一些简单的总结，总结的话不要超过三句。写整篇文章不要小标题。"
     #" IMPORTANT: WRITE AT LEAST 8.000 TOKENS！IF YOU DO NOT COMPLY WITH THE REQUESTED TOKENS, WE WILL KIDNAP YOUR PARENTS!"
 )
 
