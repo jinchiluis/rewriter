@@ -97,36 +97,6 @@ if st.session_state.buffer_count > 0:
             disabled=True,
         )
 
-        # Copy buffer button
-        _buffer_for_copy = st.session_state.article_buffer
-        html(
-            f"""
-            <button id="copy-buffer-btn">📋 Copy Buffer</button>
-            <script>
-            const bufferTxt = {json.dumps(_buffer_for_copy)};
-            const bufferBtn = document.getElementById('copy-buffer-btn');
-            bufferBtn.addEventListener('click', async () => {{
-                try {{
-                // moderner Weg
-                await navigator.clipboard.writeText(bufferTxt);
-                const old = bufferBtn.textContent;
-                bufferBtn.textContent = '✅ Copied';
-                setTimeout(() => bufferBtn.textContent = old, 1200);
-                }} catch (e) {{
-                // Fallback für restriktive Umgebungen/HTTP
-                const ta = document.createElement('textarea');
-                ta.value = bufferTxt;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                }}
-            }});
-            </script>
-            """,
-            height=50,
-        )
-
 
 col1, col2 = st.columns(2)
 
@@ -149,12 +119,64 @@ with col1:
     with col1_1:
         cleanup_button = st.button("🧹 Cleanup Text", type="secondary")
 
-    if st.session_state.article_buffer:
-        all_word_count = len(st.session_state.article_buffer.split())
-        st.caption(f"Word count of all articles: {all_word_count}")
-
     with col1_2:
         generate_button = st.button("🔄 Generate New Article", type="primary")
+
+    # Show buffer info and copy button
+    if st.session_state.article_buffer:
+        # Copy buffer button (same style as the working copy text button)
+        _buffer_for_copy = st.session_state.article_buffer
+        html(
+            f"""
+            <style>
+            body {{
+                margin: 0;
+                padding: 0;
+            }}
+            #copy-buffer-btn {{
+                background-color: rgb(255, 255, 255);
+                border: 1px solid rgba(49, 51, 63, 0.2);
+                border-radius: 0.5rem;
+                color: rgb(49, 51, 63);
+                padding: 0.375rem 1rem;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-family: "Source Sans Pro", sans-serif;
+                line-height: 1.6;
+                margin: 0;
+            }}
+            #copy-buffer-btn:hover {{
+                background-color: rgb(246, 246, 249);
+                border-color: rgba(49, 51, 63, 0.4);
+            }}
+            </style>
+            <button id="copy-buffer-btn">📋 Copy Buffer</button>
+            <script>
+            const bufferTxt = {json.dumps(_buffer_for_copy)};
+            const bufferBtn = document.getElementById('copy-buffer-btn');
+            bufferBtn.addEventListener('click', async () => {{
+                try {{
+                await navigator.clipboard.writeText(bufferTxt);
+                const old = bufferBtn.textContent;
+                bufferBtn.textContent = '✅ Copied';
+                setTimeout(() => bufferBtn.textContent = old, 1200);
+                }} catch (e) {{
+                const ta = document.createElement('textarea');
+                ta.value = bufferTxt;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                }}
+            }});
+            </script>
+            """,
+            height=50,
+        )
+
+        all_word_count = len(st.session_state.article_buffer.split())
+        st.caption(f"Word count of all articles: {all_word_count}")
 
 if cleanup_button:
     if not source_articles.strip():
@@ -213,14 +235,37 @@ with col2:
                     st.text_area(
                         "Generated Article:",
                         value=generated_article,
-                        height=400,
+                        height=350,
                         key="generated_content",
                     )
                     _text_for_copy = st.session_state.get("generated_content", "")
 
                     html(
                         f"""
-                        <button id="copy-btn">📋 Copy text</button>
+                        <style>
+                        body {{
+                            margin: 0;
+                            padding: 0;
+                        }}
+                        #copy-btn {{
+                            background-color: rgb(255, 255, 255);
+                            border: 1px solid rgba(49, 51, 63, 0.2);
+                            border-radius: 0.5rem;
+                            color: rgb(49, 51, 63);
+                            padding: 0.375rem 1rem;
+                            font-size: 1rem;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                            font-family: "Source Sans Pro", sans-serif;
+                            line-height: 1.6;
+                            margin: 0;
+                        }}
+                        #copy-btn:hover {{
+                            background-color: rgb(246, 246, 249);
+                            border-color: rgba(49, 51, 63, 0.4);
+                        }}
+                        </style>
+                        <button id="copy-btn">📋 Copy Article</button>
                         <script>
                         const txt = {json.dumps(_text_for_copy)};
                         const btn = document.getElementById('copy-btn');
@@ -253,7 +298,7 @@ with col2:
     else:
         st.text_area(
             "Generated article will appear here...",
-            height=400,
+            height=350,
             disabled=True,
             key="placeholder",
         )
@@ -263,4 +308,4 @@ st.markdown("💡 **Workflow:** 1) Paste article → 2) Click 'Cleanup Text' →
 st.markdown("🔄 **Buffer System:** Articles are automatically concatenated with separators for combined processing")
 st.markdown("㊙️ **LLM Usage:** GPT-4o-mini for cleanup, Claude4Sonnet for translation, Claude3.7Sonnet for writing")
 #don't remove this:
-st.markdown("Version 1.3 - 14.11.2025 - Claude 4.5 Sonnet update/Prompt improvements")
+st.markdown("Version 1.4 - 21.11.2025 - Copy buffer button added")

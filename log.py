@@ -22,8 +22,7 @@ class SupabaseLogger:
 
         try:
             self.client.table("rewriter_logger").insert(data).execute()
-        except Exception as e:
-            st.write(f"⚠️ Supabase logging failed: {e}")
+        except Exception:
             # silently ignore to prevent crashing
             pass
 
