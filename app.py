@@ -109,7 +109,7 @@ with col1:
 
     source_articles = st.text_area(
         "Paste your article text here:",
-        height=350,
+        height=410,
         placeholder="Paste the full text of your article here.",
         key="source_input",
     )
@@ -211,13 +211,13 @@ with col2:
                     translated_text = rewriter.call_api(
                         anthropic, anthropic_key, claude45_sonnet, translation_prompt, user_prompt
                     )
-                    
+
                     # Choose writing prompt based on buffer count
                     if st.session_state.buffer_count == 1:
                         writing_prompt = single_article_writing_prompt
                     else:
                         writing_prompt = multiple_articles_writing_prompt
-                    
+
                     generated_article = rewriter.call_api(
                         anthropic, anthropic_key, claude45_sonnet, writing_prompt, translated_text
                     )
@@ -231,11 +231,22 @@ with col2:
                         "timestamp": timestamp,
                     }
                     logger.log(log_data)
-    
+
+                    # Display translated text
+                    st.text_area(
+                        "Translated Text:",
+                        value=translated_text,
+                        height=200,
+                        key="translated_content",
+                    )
+                    trans_word_count = len(re.findall(r"[\u4e00-\u9fff]|[a-zA-Z0-9]+", translated_text))
+                    st.caption(f"Translated text word count: {trans_word_count}")
+
+                    # Display generated article
                     st.text_area(
                         "Generated Article:",
                         value=generated_article,
-                        height=350,
+                        height=200,
                         key="generated_content",
                     )
                     _text_for_copy = st.session_state.get("generated_content", "")
@@ -297,8 +308,14 @@ with col2:
                     st.error(f"An error occurred: {e}")
     else:
         st.text_area(
+            "Translated text will appear here...",
+            height=200,
+            disabled=True,
+            key="placeholder_translated",
+        )
+        st.text_area(
             "Generated article will appear here...",
-            height=350,
+            height=200,
             disabled=True,
             key="placeholder",
         )
@@ -308,4 +325,4 @@ st.markdown("💡 **Workflow:** 1) Paste article → 2) Click 'Cleanup Text' →
 st.markdown("🔄 **Buffer System:** Articles are automatically concatenated with separators for combined processing")
 st.markdown("㊙️ **LLM Usage:** GPT-4o-mini for cleanup, Claude4.5Sonnet for translation, Claude4.5Sonnet for writing")
 #don't remove this:
-st.markdown("Version 1.4 - 21.11.2025 - Copy buffer button added")
+st.markdown("Version 1.5 - 14.12.2025 - Translated Text View added")
